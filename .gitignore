@@ -1,0 +1,6 @@
+
+test.py
+*.log
+*.xml
+*.iml
+ffmpeg.exe
