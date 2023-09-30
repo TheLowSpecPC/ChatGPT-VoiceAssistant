@@ -1,5 +1,4 @@
 from pynput import keyboard
-import codecs
 import whisper
 import time
 import threading
@@ -7,12 +6,16 @@ import pyaudio
 import wave
 import os
 from playsound import playsound
-from datetime import datetime
+from bardapi import Bard
+import pyttsx3
 
+Secure1PSID = "bgh7Dg0XKR0e1sfzzdEqK6lVn9wEBJNdlHIMORXXjjNtZ3Mc2BFdBkQ71oQzh5DBjywWoA."
+bard = Bard(token = Secure1PSID)
+engine = pyttsx3.init()
 #load model
 #model selection -> (tiny base small medium large)
 print("loading model...")
-model_name = "medium"
+model_name = "small"
 model = whisper.load_model(model_name)
 playsound("sounds/model_loaded.wav")
 print(f"{model_name} model loaded")
@@ -34,15 +37,12 @@ def transcribe_speech():
         print(result["text"]+"\n")
         text = result["text"]+"\n"
 
-        now = str(datetime.now()).split(".")[0]
-        with codecs.open('transcribe.log', 'a', encoding='utf-8') as f:
-            f.write(now+" : "+result["text"]+"\n")
-        for element in result["text"]:
-            try:
-                pykeyboard.type(element)
-                time.sleep(0.0025)
-            except:
-                print("empty or unknown symbol")
+        ans = bard.get_answer(text)
+        print(ans['content'])
+
+        engine.say(result['content'])
+        engine.runAndWait()
+
         os.remove("test"+str(i)+".wav")
         i=i+1
 

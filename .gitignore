@@ -4,3 +4,6 @@ test.py
 *.xml
 *.iml
 ffmpeg.exe
+test1.wav
+test2.wav
+*.pyc
