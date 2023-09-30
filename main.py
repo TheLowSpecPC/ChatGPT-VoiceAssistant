@@ -6,12 +6,9 @@ import pyaudio
 import wave
 import os
 from playsound import playsound
-from bardapi import Bard
+from youchat import you_message
 import pyttsx3
 
-Secure1PSID = "bgh7Dg0XKR0e1sfzzdEqK6lVn9wEBJNdlHIMORXXjjNtZ3Mc2BFdBkQ71oQzh5DBjywWoA."
-bard = Bard(token = Secure1PSID)
-engine = pyttsx3.init()
 #load model
 #model selection -> (tiny base small medium large)
 print("loading model...")
@@ -37,11 +34,10 @@ def transcribe_speech():
         print(result["text"]+"\n")
         text = result["text"]+"\n"
 
-        ans = bard.get_answer(text)
-        print(ans['content'])
+        ans = you_message(text=text, out_type="string")
+        print(ans)
 
-        engine.say(result['content'])
-        engine.runAndWait()
+        pyttsx3.speak(ans)
 
         os.remove("test"+str(i)+".wav")
         i=i+1

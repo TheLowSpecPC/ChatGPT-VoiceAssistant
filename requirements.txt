@@ -1,5 +1,8 @@
 pynput
 pyaudio
+pyttsx3
+openai-whisper
+youchat-py
 wave
 playsound==1.2.2
 setuptools-rust
