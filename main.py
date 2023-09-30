@@ -1,21 +1,16 @@
 from pynput import keyboard
-import whisper
 import time
 import threading
 import pyaudio
 import wave
 import os
 from playsound import playsound
+import assemblyai as aai
 from youchat import you_message
 import pyttsx3
 
-#load model
-#model selection -> (tiny base small medium large)
-print("loading model...")
-model_name = "small"
-model = whisper.load_model(model_name)
-playsound("sounds/model_loaded.wav")
-print(f"{model_name} model loaded")
+aai.settings.api_key = f"0c2d74579e344525be8703da2850b894"
+transcriber = aai.Transcriber()
 
 file_ready_counter=0
 stop_recording=False
@@ -26,13 +21,14 @@ def transcribe_speech():
     global file_ready_counter
     i=1
     print("ready - start transcribing with F2 ...\n")
+    playsound("sounds/model_loaded.wav")
     while True:
         while file_ready_counter<i:
             time.sleep(0.01)
 
-        result = model.transcribe("test"+str(i)+".wav")
-        print(result["text"]+"\n")
-        text = result["text"]+"\n"
+        result = transcriber.transcribe("test"+str(i)+".wav")
+        print(result.text)
+        text = result.text
 
         ans = you_message(text=text, out_type="string")
         print(ans)
@@ -50,9 +46,9 @@ COMBINATIONS = [
         "keys": [
             #{keyboard.Key.ctrl ,keyboard.Key.shift, keyboard.KeyCode(char="r")},
             #{keyboard.Key.ctrl ,keyboard.Key.shift, keyboard.KeyCode(char="R")},
-            {keyboard.Key.f2},
+            {keyboard.Key.f2}, {keyboard.KeyCode(char="q")}
         ],
-        "command": "start record",
+        "command": ["start record", "stop"]
     },
 ]
 
@@ -122,11 +118,11 @@ def on_release(key):
     for c in COMBINATIONS:
         for keys in c["keys"]:
             if keys.issubset(pressed):
-                if c["command"]=="start record" and stop_recording==False and is_recording==False:
+                if c["command"][0]=="start record" and stop_recording==False and is_recording==False:
                     t1 = threading.Thread(target=record_speech)
                     t1.start()
                 else:
-                    if c["command"]=="start record" and is_recording==True:
+                    if c["command"][0]=="start record" and is_recording==True:
                         stop_recording=True
                 pressed = set()
 

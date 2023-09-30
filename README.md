@@ -1,5 +1,5 @@
-# ChatGPT Voice Assistant
-This is a python script using [openai/whisper](https://github.com/openai/whisper) to convert your voice to text which is then passed on through chatGPT and then the result is sent back using a text to speech code.
+# YouChat Voice Assistant
+This is a python script using [AssemblyAI/assemblyai-python-sdk](https://github.com/AssemblyAI/assemblyai-python-sdk) to convert your voice to text which is then passed on through YouChat AI and then the result is sent back using a text to speech code.
 
 After you start the script you just press **F2** to start/stop recording. After the record is finsihed, it will give you the desired answer.
 
@@ -25,4 +25,6 @@ Download and Install ffmpeg, git and python3
 
 **Step 3:**
 
-    python3 whisper-typer-tool.py
+Before starting, you need to set the API key. If you don't have one yet, [sign up for one](https://www.assemblyai.com/dashboard/signup)!
+
+    pip install -U assemblyai

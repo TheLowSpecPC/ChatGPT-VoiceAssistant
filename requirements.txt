@@ -1,7 +1,7 @@
 pynput
 pyaudio
 pyttsx3
-openai-whisper
+assemblyai
 youchat-py
 wave
 playsound==1.2.2
