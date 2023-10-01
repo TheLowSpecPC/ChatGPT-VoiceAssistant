@@ -8,6 +8,7 @@ from playsound import playsound
 import assemblyai as aai
 from youchat import you_message
 import pyttsx3
+import re
 
 aai.settings.api_key = f"0c2d74579e344525be8703da2850b894"
 transcriber = aai.Transcriber()
@@ -31,6 +32,7 @@ def transcribe_speech():
         text = result.text
 
         ans = you_message(text=text, out_type="string")
+        ans = re.sub("\(.*?\)", "", ans)
         print(ans)
 
         pyttsx3.speak(ans)
